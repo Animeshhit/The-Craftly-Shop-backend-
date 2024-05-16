@@ -115,7 +115,10 @@ const changeMainImage = async (req, res) => {
 
       res
         .status(200)
-        .json({ message: "Banner is now the main image.", bannerToSetMain });
+        .json({
+          message: "Banner is now the main image.",
+          banner: bannerToSetMain,
+        });
     } catch (error) {
       console.log(error);
       res.status(403).json({ message: error.message });
