@@ -53,7 +53,7 @@ const editABannerImage = async (req, res) => {
     if (!bannerToBeUpdate) {
       res.status(404).json({ message: "banner not found" });
     }
-    res.status(200).json({ message: "banner updated", updatedBanner });
+    res.status(200).json({ message: "banner updated", banner: updatedBanner });
   } catch (err) {
     console.log(err);
     errorHandler(err, res);
