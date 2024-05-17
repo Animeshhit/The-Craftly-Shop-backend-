@@ -10,7 +10,7 @@ const {
   getAProduct,
   editAProduct,
   deleteAProduct,
-  getAllBannerImages,
+  
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
@@ -31,7 +31,6 @@ router.post("/addnewbanner", createANewBanner);
 router.put("/editabannerimage", editABannerImage);
 router.delete("/deleteabannerimage", deleteABannerImage);
 router.post("/changemainimage", changeMainImage);
-router.get("/banners", getAllBannerImages);
 
 // ## For Products
 

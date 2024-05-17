@@ -1,70 +1,17 @@
 const ProductModel = require("../model/productsModel");
 const errorHandler = require("./ErrorHandler");
+const BannerModel = require("../model/adminModels/bannerModel");
 
-const getAllProducts = async (req, res) => {
+const getAllBannerImages = async (req, res) => {
   try {
-    let products = await ProductModel.find({});
-    res.status(200).json(products);
+    let bannerImages = await BannerModel.find({});
+    res.status(200).json(bannerImages);
   } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
-
-const getAProduct = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
-
-const getProductsFromACategories = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
-
-const createProduct = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
-
-const deleteProduct = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
-
-const updateAProduct = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
-
-const updateAProductStock = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
+    cosole.log(err);
     errorHandler(err, res);
   }
 };
 
 module.exports = {
-  getAllProducts,
-  getAProduct,
-  getProductsFromACategories,
-  createProduct,
-  deleteProduct,
-  updateAProduct,
-  updateAProductStock,
+  getAllBannerImages,
 };

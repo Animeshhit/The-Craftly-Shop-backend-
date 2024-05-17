@@ -113,28 +113,16 @@ const changeMainImage = async (req, res) => {
         return;
       }
 
-      res
-        .status(200)
-        .json({
-          message: "Banner is now the main image.",
-          banner: bannerToSetMain,
-        });
+      res.status(200).json({
+        message: "Banner is now the main image.",
+        banner: bannerToSetMain,
+      });
     } catch (error) {
       console.log(error);
       res.status(403).json({ message: error.message });
     }
   } catch (err) {
     console.log(err);
-    errorHandler(err, res);
-  }
-};
-
-const getAllBannerImages = async (req, res) => {
-  try {
-    let bannerImages = await BannerModel.find({});
-    res.status(200).json(bannerImages);
-  } catch (err) {
-    cosole.log(err);
     errorHandler(err, res);
   }
 };
@@ -178,5 +166,4 @@ module.exports = {
   getAProduct,
   editAProduct,
   deleteAProduct,
-  getAllBannerImages,
 };
