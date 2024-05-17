@@ -10,7 +10,6 @@ const {
   getAProduct,
   editAProduct,
   deleteAProduct,
-  
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
