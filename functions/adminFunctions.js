@@ -37,21 +37,23 @@ const editABannerImage = async (req, res) => {
   // done
   try {
     let { bannerId } = req.query;
-    let { updatedBannerImage, updatedBannerLink } = req.body;
+    let { bannerImage, bannerLink } = req.body;
     if (!bannerId) {
       res.status(404).json({ message: "please provide all the information" });
       return;
     }
-    let updatedBanner = await BannerModel.findByIdAndDelete(
+    let updatedBanner = await BannerModel.findByIdAndUpdate(
       bannerId,
       {
-        bannerImage: updatedBannerImage,
-        bannerLink: updatedBannerLink,
+        bannerImage,
+        bannerLink,
       },
       { new: true }
     );
-    if (!bannerToBeUpdate) {
+    console.log(updatedBanner);
+    if (!updatedBanner) {
       res.status(404).json({ message: "banner not found" });
+      return;
     }
     res.status(200).json({ message: "banner updated", banner: updatedBanner });
   } catch (err) {
