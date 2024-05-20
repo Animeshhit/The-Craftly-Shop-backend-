@@ -3,7 +3,7 @@ const handleError = (err, res) => {
     console.log(err);
     return res
       .status(500)
-      .json({ message: "something went wrong please try again later" });
+      .json({ status:500, message: "something went wrong please try again later" });
   }
 };
 

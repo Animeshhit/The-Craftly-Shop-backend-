@@ -21,7 +21,7 @@ const LoginUser = async (req, res) => {
 
     let user = await UserModel.findOne({ mobile });
     if (!user) {
-      return res.status(404).json({ message: "user not found" });
+      return res.status(404).json({ status:404, message: "user not found" });
     }
 
     bcrypt.compare(password, user.password, function (err, result) {
@@ -29,12 +29,12 @@ const LoginUser = async (req, res) => {
         errorHandler(err, res);
       }
       if (!result) {
-        return res.status(401).json({ message: "invalid creadentials" });
+        return res.status(401).json({status:401, message: "invalid creadentials" });
       }
       let token = jwt.sign({ id: user._id }, TOKEN);
       res
         .status(200)
-        .json({ message: "user logged In Successfuly", user, token });
+        .json({status:200, message: "user logged In Successfuly", user, token });
     });
   } catch (err) {
     console.log(err);
@@ -57,7 +57,7 @@ const RegisterUser = async (req, res) => {
     let { mobile, password } = req.body;
     let existingUser = await UserModel.findOne({ mobile });
     if (existingUser) {
-      return res.status(403).json({ message: "user already exist" });
+      return res.status(403).json({status:403, message: "user already exist" });
     }
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(password, salt);
@@ -65,6 +65,7 @@ const RegisterUser = async (req, res) => {
     let savedUser = await newUser.save();
     let token = jwt.sign({ id: savedUser._id }, TOKEN);
     res.status(201).json({
+      status:201,
       message: "user Registered Successfully",
       user: savedUser,
       token,
