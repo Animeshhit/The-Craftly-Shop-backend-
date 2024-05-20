@@ -79,14 +79,11 @@ const RegisterUser = async (req, res) => {
 const LoginALoggedInUser = async (req, res) => {
   try {
     // the middalware function checks the user is valid or not
-    // the user gets verified then a new token is created and token is shared to user
-    // and the user also sent to user
     // Login successfull ✅
-    let LoginToken = jwt.sign({ id: req.user._id }, TOKEN);
-    res.json({
+    res.status(200).json({
+      status:200,
       message: "Login Successfull",
       user: req.user,
-      token: LoginToken,
     });
   } catch (err) {
     console.log(err);

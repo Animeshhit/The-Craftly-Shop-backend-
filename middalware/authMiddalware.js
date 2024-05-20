@@ -11,7 +11,7 @@ const authMiddalware = async (req, res, next) => {
     if (!token) {
       return res
         .status(403)
-        .json({ message: "bad request the api token is not present " });
+        .json({status:403, message: "bad request the api token is not present " });
     }
 
     const decodedData = await jwt.verify(token, process.env.TOKEN);
@@ -27,7 +27,7 @@ const authMiddalware = async (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(404).json({ message: "user not found" });
+      return res.status(404).json({status:404, message: "user not found" });
     }
 
     req.user = user;
