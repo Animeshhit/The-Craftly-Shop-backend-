@@ -7,7 +7,7 @@ const getAllBannerImages = async (req, res) => {
     let bannerImages = await BannerModel.find({});
     res.status(200).json(bannerImages);
   } catch (err) {
-    cosole.log(err);
+    console.log(err);
     errorHandler(err, res);
   }
 };

@@ -91,4 +91,47 @@ const LoginALoggedInUser = async (req, res) => {
   }
 };
 
-module.exports = { LoginUser, RegisterUser, LoginALoggedInUser };
+const updateProfile = async (req,res) => {
+  try{
+    let {mobile,username,email} = req.body;
+
+    console.log(mobile,username,email);
+    console.log(req.user);
+
+    if(!(mobile || username || email)){
+      return res.status(400).json({status:400,message:"Nothing To Update"});
+    }
+    
+    if(mobile && req.user.mobile !== mobile){
+      const existingUser = await UserModel.findOne({mobile});
+      console.log(existingUser);
+      if(existingUser){
+        return res.status(400).json({status:400,message:"Mobile Number is Already In use"});
+      }
+      req.user.mobile = mobile;
+    }
+
+    
+
+    if(username && req.user.username !== username){
+      req.user.username = username;
+    }
+
+
+    if(email && req.user.email !== email) {
+      req.user.email = email;
+    }
+ 
+
+    const updatedUser = await req.user.save();
+
+    res.status(200).json({status:200,message:"Profile Updated",user:updatedUser});
+
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
+module.exports = { LoginUser, RegisterUser, LoginALoggedInUser,updateProfile };
