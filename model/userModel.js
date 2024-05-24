@@ -19,6 +19,14 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  orders:{
+    type:Array,
+    default:[]
+  },
+  notifications:{
+    type:Array,
+    default:[]
+  },
   createdAt: { type: Date, default: Date.now },
 });
 
