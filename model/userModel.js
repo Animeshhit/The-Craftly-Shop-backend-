@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  cart:{
+    type:Array,
+    default:[]
+  },
   orders:{
     type:Array,
     default:[]
