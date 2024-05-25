@@ -8,11 +8,10 @@ const ProductSchema = mongoose.Schema({
   productDescription: {
     type: String,
   },
-  variants: [
-    {
-      type: String,
-    },
-  ],
+  variants: {
+    type:Array,
+    default:[]
+  },
   price: {
     type: Number,
     required: [true, "product price is required"],
@@ -25,7 +24,10 @@ const ProductSchema = mongoose.Schema({
     type: String,
     required: [true, "product iamge is required"],
   },
-  productImages: [{ type: String }],
+  productImages: {
+    type:Array,
+    default:[]
+  },
   catagories: {
     type: String,
   },
@@ -34,6 +36,18 @@ const ProductSchema = mongoose.Schema({
     unique: [true, "product unique key is important"],
     require: true,
   },
+  isFeatured:{
+    type:Boolean,
+    default:false
+  },
+  reviews:{
+    type:Array,
+    default:[]
+  },
+  sold:{
+    type:Number,
+    default:0
+  }
 });
 
 module.exports = mongoose.model("product", ProductSchema);

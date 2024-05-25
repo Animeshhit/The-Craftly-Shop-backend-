@@ -7,7 +7,6 @@ const {
   deleteABannerImage,
   changeMainImage,
   createNewProduct,
-  getAProduct,
   editAProduct,
   deleteAProduct,
 } = require("../functions/adminFunctions");
@@ -39,7 +38,6 @@ router.post("/changemainimage", changeMainImage);
 // ==> Delete A Product
 
 router.post("/createnewproduct", createNewProduct);
-router.get("/product", getAProduct);
 router.put("/editaproduct", editAProduct);
 router.delete("/deleteaproduct", deleteAProduct);
 

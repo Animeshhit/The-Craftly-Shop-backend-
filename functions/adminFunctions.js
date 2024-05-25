@@ -1,5 +1,6 @@
 const errorHandler = require("./ErrorHandler");
 const BannerModel = require("../model/adminModels/bannerModel");
+const ProductModel = require("../model/productsModel");
 
 const createANewBanner = async (req, res) => {
   // for creating a banner image user will provide
@@ -129,43 +130,44 @@ const changeMainImage = async (req, res) => {
   }
 };
 
-const createNewProduct = (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
+// for products admin 
+const createNewProduct = async (req,res) => {
+  try{
+    let {productName,productDescription,price,discount,productImage,productImages,catagories,productUniqueId} = req.body;
+   
   }
-};
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
 
-const getAProduct = (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
-const editAProduct = (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
-  }
-};
+const editAProduct = async (req,res) => {
+  try{
 
-const deleteAProduct = (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    errorHandler(err, res);
   }
-};
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
+const deleteAProduct = async (req,res) => {
+  try{
+
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
 module.exports = {
   createANewBanner,
   editABannerImage,
   deleteABannerImage,
   changeMainImage,
   createNewProduct,
-  getAProduct,
   editAProduct,
-  deleteAProduct,
+  deleteAProduct
 };

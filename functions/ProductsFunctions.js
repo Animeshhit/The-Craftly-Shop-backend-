@@ -12,6 +12,40 @@ const getAllBannerImages = async (req, res) => {
   }
 };
 
+const getAllProducts = async (req,res) => {
+  try{
+
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
+
+const searchProducts = async (req,res) => {
+  try{
+
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
+const getAProduct = async (req,res) => {
+  try{
+
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
 module.exports = {
   getAllBannerImages,
+  getAllProducts,
+  getAProduct,
+  searchProducts
 };
