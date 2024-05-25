@@ -14,7 +14,8 @@ const getAllBannerImages = async (req, res) => {
 
 const getAllProducts = async (req,res) => {
   try{
-
+    let products = await ProductModel.find({});
+    res.status(200).json({status:200,products});
   }
   catch(err){
     console.log(err);

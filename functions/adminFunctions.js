@@ -133,8 +133,22 @@ const changeMainImage = async (req, res) => {
 // for products admin 
 const createNewProduct = async (req,res) => {
   try{
-    let {productName,productDescription,price,discount,productImage,productImages,catagories,productUniqueId} = req.body;
-   
+    let {productName,productDescription,price,discount,productImage,catagories,productUniqueId} = req.body;
+    if(!(productName && productDescription && price && discount && productImage && catagories && productUniqueId)){
+      return res.status(403).json({status:403,message:"required fields are not present"});
+    }
+    const newProduct = new ProductModel({
+      productName,
+      productDescription,
+      price,
+      discount,
+      productImage,
+      catagories,
+      productUniqueId
+    });
+    const createdProduct = await newProduct.save();
+
+    res.status(201).json({status:201,message:"product Added",product:createdProduct});
   }
   catch(err){
     console.log(err);
@@ -154,7 +168,12 @@ const editAProduct = async (req,res) => {
 
 const deleteAProduct = async (req,res) => {
   try{
-
+   let {id} = req.query;
+   let isDeleted = await ProductModel.findByIdAndDelete(id);
+   if(isDeleted) {
+    return res.status(200).json({status:200, message:"Product Deleted"});
+   }
+   return res.status(404).json({status:404,message:"Product Not Found"});
   }
   catch(err){
     console.log(err);

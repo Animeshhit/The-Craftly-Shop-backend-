@@ -30,6 +30,7 @@ const ProductSchema = mongoose.Schema({
   },
   catagories: {
     type: String,
+    required:[true,"catagories is required"]
   },
   productUniqueId: {
     type: String,
@@ -47,7 +48,7 @@ const ProductSchema = mongoose.Schema({
   sold:{
     type:Number,
     default:0
-  }
+  },
 });
 
 module.exports = mongoose.model("product", ProductSchema);

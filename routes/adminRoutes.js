@@ -13,9 +13,7 @@ const {
 
 // testing the admin pannel
 
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "working!!", user: req.user });
-});
+
 
 // routes for admin ui
 // ## For Image Slider
