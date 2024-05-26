@@ -36,7 +36,13 @@ const searchProducts = async (req,res) => {
 
 const getAProduct = async (req,res) => {
   try{
-
+    let {id} = req.query;
+    let product = await ProductModel.find({_id:id});
+    if(!product){
+      res.status(404).json({status:404,message:"product not found"});
+      return;
+    }
+    res.status(200).json({status:200,product});
   }
   catch(err){
     console.log(err);
