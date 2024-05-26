@@ -137,6 +137,14 @@ const createNewProduct = async (req,res) => {
     if(!(productName && productDescription && price && discount && productImage && catagories && productUniqueId)){
       return res.status(403).json({status:403,message:"required fields are not present"});
     }
+
+    let existingProduct = await ProductModel.findOne({productUniqueId});
+
+    if(existingProduct){
+      res.status(403).json({status:403,message:"unique id is already exist!!"});
+      return;
+    }
+
     const newProduct = new ProductModel({
       productName,
       productDescription,
