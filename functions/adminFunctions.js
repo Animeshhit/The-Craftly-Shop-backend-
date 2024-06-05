@@ -1,6 +1,8 @@
 const errorHandler = require("./ErrorHandler");
 const BannerModel = require("../model/adminModels/bannerModel");
 const ProductModel = require("../model/productsModel");
+const {v4} = require('uuid');
+
 
 const createANewBanner = async (req, res) => {
   // for creating a banner image user will provide
@@ -164,6 +166,28 @@ const createNewProduct = async (req,res) => {
   }
 }
 
+const createNewProductImage = async (req,res) => {
+  try{
+    let {productImage} = req.body;
+    let {productId} = req.query;
+    const product = await ProductModel.findOne({_id:productId});
+    if(!product){
+      return res.status(404).json({status:404,message:"product not found"});
+    }
+    let newProductImage = {
+      id:v4(),
+      image:productImage
+    }
+    product.productImages.push(newProductImage);
+    let updatedProduct = await product.save();
+    res.status(201).json({status:201,message:"product image added",product:updatedProduct});
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
 const editAProduct = async (req,res) => {
   try{
 
@@ -189,6 +213,46 @@ const deleteAProduct = async (req,res) => {
   }
 }
 
+const changeProductMainImage = async (req,res) => {
+  try{
+    let {productImage} = req.body;
+    let {productId} = req.query;
+    const product = await ProductModel.findOne({_id:productId});
+    if(!product) {
+      return res.status(404).json({status:404,message:"Product Not Found"});
+    }
+      product.productImage = productImage;
+      let updatedProduct = await product.save();
+      res.status(201).json({status:201,message:"product image updated",product:updatedProduct});
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
+const changeProductImages = async (req,res) => {
+  try{
+    let {productImage,id} = req.body;
+    let {productId} = req.query;
+    const updatedProduct = await ProductModel.findOneAndUpdate(
+      { _id: productId, "productImages.id": id },
+      { $set: { "productImages.$.image": productImage } },
+      { new: true } // Return the modified document
+  );
+  if (!updatedProduct) {
+    res.status(404).json({status:404,message:"product image not found"});
+    return;
+  }
+   console.log(updatedProduct);
+    res.status(201).json({status:201,message:"product image updated",product:updatedProduct});
+  }
+  catch(err){
+    console.log(err);
+    errorHandler(err,res);
+  }
+}
+
 module.exports = {
   createANewBanner,
   editABannerImage,
@@ -196,5 +260,8 @@ module.exports = {
   changeMainImage,
   createNewProduct,
   editAProduct,
-  deleteAProduct
+  deleteAProduct,
+  createNewProductImage,
+  changeProductMainImage,
+  changeProductImages
 };

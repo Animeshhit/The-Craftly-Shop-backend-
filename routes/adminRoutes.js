@@ -9,6 +9,9 @@ const {
   createNewProduct,
   editAProduct,
   deleteAProduct,
+  createNewProductImage,
+  changeProductMainImage,
+  changeProductImages
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
@@ -36,6 +39,9 @@ router.post("/changemainimage", changeMainImage);
 // ==> Delete A Product
 
 router.post("/createnewproduct", createNewProduct);
+router.post("/createproductimage",createNewProductImage);
+router.post("/changeproductmainimage",changeProductMainImage);
+router.post("/changeproductimages",changeProductImages)
 router.put("/editaproduct", editAProduct);
 router.delete("/deleteaproduct", deleteAProduct);
 
