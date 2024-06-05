@@ -7,7 +7,11 @@ const bannerSchema = new mongoose.Schema({
   },
   bannerLink: {
     type: String,
-    default: null,
+    default:"/",
+  },
+  bannerText:{
+    type:String,
+    default:null,
   },
   createdAt: {
     type: Date,

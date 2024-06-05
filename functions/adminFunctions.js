@@ -12,8 +12,8 @@ const createANewBanner = async (req, res) => {
   // and they are all ready verified so i have no issues
 
   try {
-    let { bannerImage, bannerLink } = req.body;
-    if (!(bannerImage && bannerLink)) {
+    let { bannerImage, bannerLink,bannerText } = req.body;
+    if (!(bannerImage)) {
       res
         .status(401)
         .json({ message: "please provide all the required information" });
@@ -22,6 +22,7 @@ const createANewBanner = async (req, res) => {
     let newBanner = new BannerModel({
       bannerImage,
       bannerLink,
+      bannerText
     });
 
     let savedBanner = await newBanner.save();
@@ -40,7 +41,7 @@ const editABannerImage = async (req, res) => {
   // done
   try {
     let { bannerId } = req.query;
-    let { bannerImage, bannerLink } = req.body;
+    let { bannerImage, bannerLink,bannerText } = req.body;
     if (!bannerId) {
       res.status(404).json({ message: "please provide all the information" });
       return;
@@ -50,6 +51,7 @@ const editABannerImage = async (req, res) => {
       {
         bannerImage,
         bannerLink,
+        bannerText
       },
       { new: true }
     );
