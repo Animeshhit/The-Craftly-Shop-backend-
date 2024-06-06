@@ -134,7 +134,7 @@ const changeMainImage = async (req, res) => {
   }
 };
 
-// for products admin 
+// for products admin page
 const createNewProduct = async (req,res) => {
   try{
     let {productName,productDescription,price,discount,productImage,catagories,productUniqueId} = req.body;
