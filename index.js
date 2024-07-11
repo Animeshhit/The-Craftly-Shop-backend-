@@ -30,7 +30,7 @@ const app = express();
 const PORT = process.env.PORT || "8080";
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://the-craftly-shop.vercel.app"],
+    origin: ["http://localhost:5173", "https://the-craftly-shop.vercel.app","https://thecraftly.shop"],
   })
 );
 
