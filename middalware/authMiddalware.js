@@ -5,13 +5,21 @@ const jwt = require("jsonwebtoken");
 
 const authMiddalware = async (req, res, next) => {
   try {
-    let token = req.query.apikey;
+    let token;
     let user;
 
+    const authHeader = req.headers["authorization"];
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.substring(7, authHeader.length); // Remove "Bearer " from string
+    } else {
+      token = null;
+    }
+
     if (!token) {
-      return res
-        .status(403)
-        .json({status:403, message: "bad request the api token is not present " });
+      return res.status(403).json({
+        status: 403,
+        message: "bad request the api token is not present ",
+      });
     }
 
     const decodedData = await jwt.verify(token, process.env.TOKEN);
@@ -27,7 +35,7 @@ const authMiddalware = async (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(404).json({status:404, message: "user not found" });
+      return res.status(404).json({ status: 404, message: "user not found" });
     }
 
     req.user = user;

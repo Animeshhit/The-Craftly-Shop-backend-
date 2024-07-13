@@ -1,8 +1,8 @@
 const errorHandler = require("./ErrorHandler");
 const BannerModel = require("../model/adminModels/bannerModel");
 const ProductModel = require("../model/productsModel");
-const {v4} = require('uuid');
-
+const UserModel = require("../model/userModel");
+const { v4 } = require("uuid");
 
 const createANewBanner = async (req, res) => {
   // for creating a banner image user will provide
@@ -12,17 +12,20 @@ const createANewBanner = async (req, res) => {
   // and they are all ready verified so i have no issues
 
   try {
-    let { bannerImage, bannerLink,bannerText } = req.body;
-    if (!(bannerImage)) {
-      res
+    let { bannerText, bannerImage, bannerLink } = req.body;
+
+    console.log(bannerImage);
+
+    if (!bannerImage || bannerImage == "" || bannerImage == undefined) {
+      return res
         .status(401)
-        .json({ message: "please provide all the required information" });
-      return;
+        .json({ message: "Please provide all the required information" });
     }
+
     let newBanner = new BannerModel({
       bannerImage,
       bannerLink,
-      bannerText
+      bannerText,
     });
 
     let savedBanner = await newBanner.save();
@@ -41,7 +44,7 @@ const editABannerImage = async (req, res) => {
   // done
   try {
     let { bannerId } = req.query;
-    let { bannerImage, bannerLink,bannerText } = req.body;
+    let { bannerImage, bannerLink, bannerText } = req.body;
     if (!bannerId) {
       res.status(404).json({ message: "please provide all the information" });
       return;
@@ -51,7 +54,7 @@ const editABannerImage = async (req, res) => {
       {
         bannerImage,
         bannerLink,
-        bannerText
+        bannerText,
       },
       { new: true }
     );
@@ -135,17 +138,39 @@ const changeMainImage = async (req, res) => {
 };
 
 // for products admin page
-const createNewProduct = async (req,res) => {
-  try{
-    let {productName,productDescription,price,discount,productImage,catagories,productUniqueId} = req.body;
-    if(!(productName && productDescription && price && discount && productImage && catagories && productUniqueId)){
-      return res.status(403).json({status:403,message:"required fields are not present"});
+const createNewProduct = async (req, res) => {
+  try {
+    let {
+      productName,
+      productDescription,
+      price,
+      discount,
+      productImage,
+      catagories,
+      productUniqueId,
+    } = req.body;
+    if (
+      !(
+        productName &&
+        productDescription &&
+        price &&
+        discount &&
+        productImage &&
+        catagories &&
+        productUniqueId
+      )
+    ) {
+      return res
+        .status(403)
+        .json({ status: 403, message: "required fields are not present" });
     }
 
-    let existingProduct = await ProductModel.findOne({productUniqueId});
+    let existingProduct = await ProductModel.findOne({ productUniqueId });
 
-    if(existingProduct){
-      res.status(403).json({status:403,message:"unique id is already exist!!"});
+    if (existingProduct) {
+      res
+        .status(403)
+        .json({ status: 403, message: "unique id is already exist!!" });
       return;
     }
 
@@ -156,104 +181,127 @@ const createNewProduct = async (req,res) => {
       discount,
       productImage,
       catagories,
-      productUniqueId
+      productUniqueId,
     });
     const createdProduct = await newProduct.save();
 
-    res.status(201).json({status:201,message:"product Added",product:createdProduct});
-  }
-  catch(err){
+    res
+      .status(201)
+      .json({ status: 201, message: "product Added", product: createdProduct });
+  } catch (err) {
     console.log(err);
-    errorHandler(err,res);
+    errorHandler(err, res);
   }
-}
+};
 
-const createNewProductImage = async (req,res) => {
-  try{
-    let {productImage} = req.body;
-    let {productId} = req.query;
-    const product = await ProductModel.findOne({_id:productId});
-    if(!product){
-      return res.status(404).json({status:404,message:"product not found"});
+const createNewProductImage = async (req, res) => {
+  try {
+    let { productImage } = req.body;
+    let { productId } = req.query;
+    const product = await ProductModel.findOne({ _id: productId });
+    if (!product) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "product not found" });
     }
     let newProductImage = {
-      id:v4(),
-      image:productImage
-    }
+      id: v4(),
+      image: productImage,
+    };
     product.productImages.push(newProductImage);
     let updatedProduct = await product.save();
-    res.status(201).json({status:201,message:"product image added",product:updatedProduct});
-  }
-  catch(err){
+    res.status(201).json({
+      status: 201,
+      message: "product image added",
+      product: updatedProduct,
+    });
+  } catch (err) {
     console.log(err);
-    errorHandler(err,res);
+    errorHandler(err, res);
   }
-}
+};
 
-const editAProduct = async (req,res) => {
-  try{
-
-  }
-  catch(err){
+const editAProduct = async (req, res) => {
+  try {
+  } catch (err) {
     console.log(err);
-    errorHandler(err,res);
+    errorHandler(err, res);
   }
-}
+};
 
-const deleteAProduct = async (req,res) => {
-  try{
-   let {id} = req.query;
-   let isDeleted = await ProductModel.findByIdAndDelete(id);
-   if(isDeleted) {
-    return res.status(200).json({status:200, message:"Product Deleted"});
-   }
-   return res.status(404).json({status:404,message:"Product Not Found"});
-  }
-  catch(err){
-    console.log(err);
-    errorHandler(err,res);
-  }
-}
-
-const changeProductMainImage = async (req,res) => {
-  try{
-    let {productImage} = req.body;
-    let {productId} = req.query;
-    const product = await ProductModel.findOne({_id:productId});
-    if(!product) {
-      return res.status(404).json({status:404,message:"Product Not Found"});
+const deleteAProduct = async (req, res) => {
+  try {
+    let { id } = req.query;
+    let isDeleted = await ProductModel.findByIdAndDelete(id);
+    if (isDeleted) {
+      return res.status(200).json({ status: 200, message: "Product Deleted" });
     }
-      product.productImage = productImage;
-      let updatedProduct = await product.save();
-      res.status(201).json({status:201,message:"product image updated",product:updatedProduct});
-  }
-  catch(err){
+    return res.status(404).json({ status: 404, message: "Product Not Found" });
+  } catch (err) {
     console.log(err);
-    errorHandler(err,res);
+    errorHandler(err, res);
   }
-}
+};
 
-const changeProductImages = async (req,res) => {
-  try{
-    let {productImage,id} = req.body;
-    let {productId} = req.query;
+const changeProductMainImage = async (req, res) => {
+  try {
+    let { productImage } = req.body;
+    let { productId } = req.query;
+    const product = await ProductModel.findOne({ _id: productId });
+    if (!product) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "Product Not Found" });
+    }
+    product.productImage = productImage;
+    let updatedProduct = await product.save();
+    res.status(201).json({
+      status: 201,
+      message: "product image updated",
+      product: updatedProduct,
+    });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
+
+const changeProductImages = async (req, res) => {
+  try {
+    let { productImage, id } = req.body;
+    let { productId } = req.query;
     const updatedProduct = await ProductModel.findOneAndUpdate(
       { _id: productId, "productImages.id": id },
       { $set: { "productImages.$.image": productImage } },
       { new: true } // Return the modified document
-  );
-  if (!updatedProduct) {
-    res.status(404).json({status:404,message:"product image not found"});
-    return;
-  }
-   console.log(updatedProduct);
-    res.status(201).json({status:201,message:"product image updated",product:updatedProduct});
-  }
-  catch(err){
+    );
+    if (!updatedProduct) {
+      res.status(404).json({ status: 404, message: "product image not found" });
+      return;
+    }
+    console.log(updatedProduct);
+    res.status(201).json({
+      status: 201,
+      message: "product image updated",
+      product: updatedProduct,
+    });
+  } catch (err) {
     console.log(err);
-    errorHandler(err,res);
+    errorHandler(err, res);
   }
-}
+};
+
+// for users
+
+const getAllUsers = async (req, res) => {
+  try {
+    let users = await UserModel.find({});
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 module.exports = {
   createANewBanner,
@@ -265,5 +313,6 @@ module.exports = {
   deleteAProduct,
   createNewProductImage,
   changeProductMainImage,
-  changeProductImages
+  changeProductImages,
+  getAllUsers,
 };

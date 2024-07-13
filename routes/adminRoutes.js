@@ -11,12 +11,11 @@ const {
   deleteAProduct,
   createNewProductImage,
   changeProductMainImage,
-  changeProductImages
+  changeProductImages,
+  getAllUsers,
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
-
-
 
 // routes for admin ui
 // ## For Image Slider
@@ -39,10 +38,15 @@ router.post("/changemainimage", changeMainImage);
 // ==> Delete A Product
 
 router.post("/createnewproduct", createNewProduct);
-router.post("/createproductimage",createNewProductImage);
-router.post("/changeproductmainimage",changeProductMainImage);
-router.post("/changeproductimages",changeProductImages)
+router.post("/createproductimage", createNewProductImage);
+router.post("/changeproductmainimage", changeProductMainImage);
+router.post("/changeproductimages", changeProductImages);
 router.put("/editaproduct", editAProduct);
 router.delete("/deleteaproduct", deleteAProduct);
+
+//for users
+// ==> /users ==> get all users
+
+router.get("/users", getAllUsers);
 
 module.exports = router;
