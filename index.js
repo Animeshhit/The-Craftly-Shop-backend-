@@ -30,10 +30,15 @@ const app = express();
 const PORT = process.env.PORT || "8080";
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:5173",
+      "https://the-craftly-shop.vercel.app",
+      "https://thecraftly.shop",
+    ],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
   })
 );
-// ["http://localhost:5173", "https://the-craftly-shop.vercel.app","https://thecraftly.shop"],
 app.use((req, res, next) => {
   res.setHeader("Content-Type", "application/json");
   next();
