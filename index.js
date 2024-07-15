@@ -34,6 +34,7 @@ app.use(
       "http://localhost:5173",
       "https://the-craftly-shop.vercel.app",
       "https://thecraftly.shop",
+      "https://the-craftly-shop-admin.vercel.app/",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
