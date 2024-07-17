@@ -2,17 +2,18 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  createANewBanner,
-  editABannerImage,
-  deleteABannerImage,
-  changeMainImage,
-  createNewProduct,
-  editAProduct,
-  deleteAProduct,
-  createNewProductImage,
-  changeProductMainImage,
-  changeProductImages,
-  getAllUsers,
+  // createANewBanner,
+  // editABannerImage,
+  // deleteABannerImage,
+  // changeMainImage,
+  // createNewProduct,
+  // editAProduct,
+  // deleteAProduct,
+  // createNewProductImage,
+  // changeProductMainImage,
+  // changeProductImages,
+  // getAllUsers,
+  createNewCtg,
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
@@ -25,10 +26,10 @@ const {
 //  ==> Change Main Image
 // ==> geting all banner images
 
-router.post("/addnewbanner", createANewBanner);
-router.put("/editabannerimage", editABannerImage);
-router.delete("/deleteabannerimage", deleteABannerImage);
-router.post("/changemainimage", changeMainImage);
+// router.post("/addnewbanner", createANewBanner);
+// router.put("/editabannerimage", editABannerImage);
+// router.delete("/deleteabannerimage", deleteABannerImage);
+// router.post("/changemainimage", changeMainImage);
 
 // ## For Products
 
@@ -37,16 +38,21 @@ router.post("/changemainimage", changeMainImage);
 // ==> Edit A Product
 // ==> Delete A Product
 
-router.post("/createnewproduct", createNewProduct);
-router.post("/createproductimage", createNewProductImage);
-router.post("/changeproductmainimage", changeProductMainImage);
-router.post("/changeproductimages", changeProductImages);
-router.put("/editaproduct", editAProduct);
-router.delete("/deleteaproduct", deleteAProduct);
+// router.post("/createnewproduct", createNewProduct);
+// router.post("/createproductimage", createNewProductImage);
+// router.post("/changeproductmainimage", changeProductMainImage);
+// router.post("/changeproductimages", changeProductImages);
+// router.put("/editaproduct", editAProduct);
+// router.delete("/deleteaproduct", deleteAProduct);
 
 //for users
 // ==> /users ==> get all users
 
-router.get("/users", getAllUsers);
+// router.get("/users", getAllUsers);
+
+// For categories
+// ===> /create-new-ctg
+
+router.post("/create-new-ctg", createNewCtg);
 
 module.exports = router;

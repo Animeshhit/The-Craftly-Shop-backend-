@@ -1,6 +1,6 @@
 const ProductModel = require("../model/productsModel");
 const errorHandler = require("./ErrorHandler");
-const BannerModel = require("../model/adminModels/bannerModel");
+const BannerModel = require("../model/bannerModel");
 
 const getAllBannerImages = async (req, res) => {
   try {

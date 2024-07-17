@@ -1,7 +1,5 @@
-require("dotenv");
+require("dotenv").config();
 const errorHandler = require("../functions/ErrorHandler");
-const userModel = require("../model/userModel");
-const jwt = require("jsonwebtoken");
 
 const adminMiddalware = async (req, res, next) => {
   try {
@@ -18,5 +16,5 @@ const adminMiddalware = async (req, res, next) => {
     errorHandler(err.res);
   }
 };
-  
+
 module.exports = { adminMiddalware };
