@@ -7,7 +7,12 @@ const os = require("os");
 const numberOfCpus = os.cpus().length;
 
 const connectToDb = require("./db/db");
-const { authRoutes, adminRoutes, productsRoutes } = require("./routes");
+const {
+  authRoutes,
+  adminRoutes,
+  productsRoutes,
+  ctgRoutes,
+} = require("./routes");
 const errorHandler = require("./functions/ErrorHandler");
 const { adminMiddalware } = require("./middalware/adminMiddalware");
 const { authMiddalware } = require("./middalware/authMiddalware");
@@ -50,6 +55,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1", productsRoutes);
+app.use("/api/v1", ctgRoutes);
 app.use("/api/v1/admin", authMiddalware, adminMiddalware, adminRoutes);
 
 app.get("/", (req, res) => {

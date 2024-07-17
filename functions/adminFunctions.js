@@ -314,14 +314,16 @@ const createNewCtg = async (req, res) => {
       return res.status(403).json({ message: "please enter a valid name" });
     }
     let ctg = await CtgModel.findOne({ name: name });
+
     if (ctg) {
       return res.status(401).json({ message: "categories is already added" });
     }
+    console.log(ctg);
     let newCtg = new CtgModel({
       name: name.trim(),
     });
     let savedCtg = await newCtg.save();
-    res.status(201).json({ message: "categories added" });
+    res.status(201).json({ message: "categories added", newctg: savedCtg });
   } catch (err) {
     console.log(err);
     errorHandler(err, res);

@@ -17,20 +17,20 @@ const authMiddalware = async (req, res, next) => {
     if (!token) {
       return res.status(403).json({
         status: 403,
-        message: "bad request",
+        message: "bad request token",
       });
     }
 
     jwt.verify(token, process.env.TOKEN, async (err, decodedData) => {
       if (err) {
         return res.status(403).json({
-          message: "bad request",
+          message: "bad request invalid",
         });
       }
 
       if (!decodedData.id) {
         return res.status(403).json({
-          message: "bad request",
+          message: "bad request invalid2",
         });
       }
 
@@ -39,10 +39,12 @@ const authMiddalware = async (req, res, next) => {
       let user = await userModel.findOne({ _id: id });
 
       if (!user) {
-        return res.status(404).json({ status: 404, message: "bad request" });
+        return res
+          .status(404)
+          .json({ status: 404, message: "bad request invalid" });
       }
 
-      req.user = user();
+      req.user = user;
       next();
     });
   } catch (err) {
