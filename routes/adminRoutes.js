@@ -14,6 +14,7 @@ const {
   // changeProductImages,
   // getAllUsers,
   createNewCtg,
+  deleteCtg,
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
@@ -52,7 +53,9 @@ const {
 
 // For categories
 // ===> /create-new-ctg
+// ====> /delete-ctg
 
 router.post("/create-new-ctg", createNewCtg);
+router.delete("/delete-ctg", deleteCtg);
 
 module.exports = router;

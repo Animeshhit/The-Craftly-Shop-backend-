@@ -313,7 +313,7 @@ const createNewCtg = async (req, res) => {
     if ((name == "") | !name) {
       return res.status(403).json({ message: "please enter a valid name" });
     }
-    let ctg = await CtgModel.findOne({ name: name });
+    let ctg = await CtgModel.findOne({ name: new RegExp(`^${name}$`, "i") });
 
     if (ctg) {
       return res.status(401).json({ message: "categories is already added" });
@@ -324,6 +324,24 @@ const createNewCtg = async (req, res) => {
     });
     let savedCtg = await newCtg.save();
     res.status(201).json({ message: "categories added", newctg: savedCtg });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
+
+const deleteCtg = async (req, res) => {
+  try {
+    let { id } = req.query;
+    if (!id) {
+      return res.status(403).json({ message: "bad request" });
+    }
+    let ctg = await CtgModel.findByIdAndDelete(id);
+    if (ctg) {
+      res.status(200).json({ message: "categories removed" });
+    } else {
+      res.status(404).json({ message: "bad request" });
+    }
   } catch (err) {
     console.log(err);
     errorHandler(err, res);
@@ -343,4 +361,5 @@ module.exports = {
   // changeProductImages,
   // getAllUsers,
   createNewCtg,
+  deleteCtg,
 };
