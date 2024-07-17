@@ -1,6 +1,6 @@
 const errorHandler = require("../functions/ErrorHandler");
 
-const userDataValidate = (schema) => async (req, res, next) => {
+const productDataValidate = (schema) => async (req, res, next) => {
   try {
     const refinedData = schema.safeParse(req.body);
     if (!refinedData.success) {
@@ -15,4 +15,4 @@ const userDataValidate = (schema) => async (req, res, next) => {
   }
 };
 
-module.exports = userDataValidate;
+module.exports = productDataValidate;

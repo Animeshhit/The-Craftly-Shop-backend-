@@ -141,61 +141,54 @@ const CtgModel = require("../model/ctgModel");
 // };
 
 // For Products Pages======================================================
-// const createNewProduct = async (req, res) => {
-//   try {
-//     let {
-//       productName,
-//       productDescription,
-//       price,
-//       discount,
-//       productImage,
-//       catagories,
-//       productUniqueId,
-//     } = req.body;
-//     if (
-//       !(
-//         productName &&
-//         productDescription &&
-//         price &&
-//         discount &&
-//         productImage &&
-//         catagories &&
-//         productUniqueId
-//       )
-//     ) {
-//       return res
-//         .status(403)
-//         .json({ status: 403, message: "required fields are not present" });
-//     }
+const createNewProduct = async (req, res) => {
+  try {
+    let {
+      name,
+      description,
+      price,
+      discount,
+      productImage,
+      productImages,
+      catagories,
+      productUniqueId,
+      stock,
+      isFeatured,
+      isBestSeller,
+    } = req.body;
 
-//     let existingProduct = await ProductModel.findOne({ productUniqueId });
+    let existingProduct = await ProductModel.findOne({ productUniqueId });
 
-//     if (existingProduct) {
-//       res
-//         .status(403)
-//         .json({ status: 403, message: "unique id is already exist!!" });
-//       return;
-//     }
+    if (existingProduct) {
+      res
+        .status(403)
+        .json({ status: 403, message: "unique id is already exist!!" });
+      return;
+    }
 
-//     const newProduct = new ProductModel({
-//       productName,
-//       productDescription,
-//       price,
-//       discount,
-//       productImage,
-//       catagories,
-//       productUniqueId,
-//     });
-//     const createdProduct = await newProduct.save();
+    const newProduct = new ProductModel({
+      name,
+      description,
+      price,
+      discount,
+      productImage,
+      productImages,
+      catagories,
+      productUniqueId,
+      stock,
+      isFeatured,
+      isBestSeller,
+    });
+    const createdProduct = await newProduct.save();
 
-//     res
-//       .status(201)
-//       .json({ status: 201, message: "product Added", product: createdProduct });
-//   } catch (err) {
-//     console.log(err);
-//     errorHandler(err, res);
-//   }
-// };
+    res
+      .status(201)
+      .json({ status: 201, message: "product Added", product: createdProduct });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 // const createNewProductImage = async (req, res) => {
 //   try {
@@ -353,7 +346,7 @@ module.exports = {
   // editABannerImage,
   // deleteABannerImage,
   // changeMainImage,
-  // createNewProduct,
+  createNewProduct,
   // editAProduct,
   // deleteAProduct,
   // createNewProductImage,

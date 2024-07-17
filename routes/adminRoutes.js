@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
+const productValidateSchema = require("../validatorSchemas/productSchema");
+const productValidate = require("../validators/productValidator");
+
 const {
   // createANewBanner,
   // editABannerImage,
   // deleteABannerImage,
   // changeMainImage,
-  // createNewProduct,
+  createNewProduct,
   // editAProduct,
   // deleteAProduct,
   // createNewProductImage,
@@ -39,7 +42,11 @@ const {
 // ==> Edit A Product
 // ==> Delete A Product
 
-// router.post("/createnewproduct", createNewProduct);
+router.post(
+  "/createnewproduct",
+  productValidate(productValidateSchema),
+  createNewProduct
+);
 // router.post("/createproductimage", createNewProductImage);
 // router.post("/changeproductmainimage", changeProductMainImage);
 // router.post("/changeproductimages", changeProductImages);
