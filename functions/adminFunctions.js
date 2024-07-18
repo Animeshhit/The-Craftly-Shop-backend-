@@ -299,7 +299,33 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-//For Categories
+const changeAdminStatus = async (req, res) => {
+  try {
+    let { id } = req.query;
+    if (!id) {
+      return res.status(403).json({ message: "bad request" });
+    }
+
+    let user = await UserModel.findOne({ _id: id }).select("isAdmin");
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    if (user.isAdmin) {
+      user.isAdmin = false;
+    } else {
+      user.isAdmin = true;
+    }
+    await user.save();
+    res.status(201).json({ message: "access changed" });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
+
+//For Categories=============================================
 const createNewCtg = async (req, res) => {
   try {
     let { name } = req.body;
@@ -367,6 +393,7 @@ module.exports = {
   // changeProductMainImage,
   // changeProductImages,
   getAllUsers,
+  changeAdminStatus,
   createNewCtg,
   deleteCtg,
 };

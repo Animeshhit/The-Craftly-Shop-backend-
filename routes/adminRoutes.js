@@ -18,6 +18,7 @@ const {
   getAllUsers,
   createNewCtg,
   deleteCtg,
+  changeAdminStatus,
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
@@ -55,8 +56,10 @@ router.post(
 
 //for users
 // ==> /users ==> get all users
+// ==> /changeadmin ==> change the user admin
 
 router.get("/users", getAllUsers);
+router.get("/changeadmin", changeAdminStatus);
 
 // For categories
 // ===> /create-new-ctg
