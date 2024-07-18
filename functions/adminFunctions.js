@@ -327,12 +327,26 @@ const deleteCtg = async (req, res) => {
     if (!id) {
       return res.status(403).json({ message: "bad request" });
     }
-    let ctg = await CtgModel.findByIdAndDelete(id);
-    if (ctg) {
-      res.status(200).json({ message: "categories removed" });
-    } else {
-      res.status(404).json({ message: "bad request" });
+
+    let ctg = await CtgModel.findOne({ _id: id });
+
+    if (!ctg) {
+      return res.status(404).json({ message: "categories not found" });
     }
+
+    let product = await ProductModel.findOne({ catagories: ctg.name });
+
+    if (product) {
+      return res.status(403).json({
+        message: "can't delete the categories you have products under this",
+      });
+    }
+
+    let ctgToDelete = await CtgModel.findByIdAndDelete(id);
+    if (!ctgToDelete) {
+      return res.status(404).json({ message: "bad request" });
+    }
+    res.status(200).json({ message: "categories removed" });
   } catch (err) {
     console.log(err);
     errorHandler(err, res);
