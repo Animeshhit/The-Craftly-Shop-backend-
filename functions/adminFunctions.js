@@ -287,15 +287,17 @@ const createNewProduct = async (req, res) => {
 
 // for users======================================================================
 
-// const getAllUsers = async (req, res) => {
-//   try {
-//     let users = await UserModel.find({});
-//     res.status(200).json(users);
-//   } catch (err) {
-//     console.log(err);
-//     errorHandler(err, res);
-//   }
-// };
+const getAllUsers = async (req, res) => {
+  try {
+    let users = await UserModel.find({}).select(
+      "-password -cart -orders -notifications"
+    );
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 //For Categories
 const createNewCtg = async (req, res) => {
@@ -364,7 +366,7 @@ module.exports = {
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,
-  // getAllUsers,
+  getAllUsers,
   createNewCtg,
   deleteCtg,
 };

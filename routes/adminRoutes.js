@@ -15,7 +15,7 @@ const {
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,
-  // getAllUsers,
+  getAllUsers,
   createNewCtg,
   deleteCtg,
 } = require("../functions/adminFunctions");
@@ -56,7 +56,7 @@ router.post(
 //for users
 // ==> /users ==> get all users
 
-// router.get("/users", getAllUsers);
+router.get("/users", getAllUsers);
 
 // For categories
 // ===> /create-new-ctg
