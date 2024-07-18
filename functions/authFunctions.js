@@ -20,7 +20,6 @@ const LoginUser = async (req, res) => {
     let { mobile, password } = req.body;
 
     let user = await UserModel.findOne({ mobile });
-    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "user not found" });
     }
@@ -82,7 +81,6 @@ const LoginALoggedInUser = async (req, res) => {
   try {
     // the middalware function checks the user is valid or not
     // Login successfull ✅
-    console.log(req.user);
     res.status(200).json({
       message: "Login Successfull",
       user: { ...req.user._doc, password: null },
