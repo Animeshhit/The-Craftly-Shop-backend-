@@ -14,7 +14,13 @@ const getAllBannerImages = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    let products = await ProductModel.find({});
+    let products = await ProductModel.find({}).select([
+      "name",
+      "price",
+      "discount",
+      "productImage",
+      "catagories",
+    ]);
     res.status(200).json({ status: 200, products });
   } catch (err) {
     console.log(err);
@@ -30,13 +36,13 @@ const searchProducts = async (req, res) => {
   }
 };
 
-const getAProduct = async (req,res) => {
-  try{
-    let {id} = req.query;
-    if(!id) return res.status(403).json({message:"id is not given"});
-    let product = await ProductModel.findOne({_id:id});
-    if(!product){
-      res.status(404).json({status:404,message:"product not found"});
+const getAProduct = async (req, res) => {
+  try {
+    let { id } = req.query;
+    if (!id) return res.status(403).json({ message: "bad request" });
+    let product = await ProductModel.findOne({ _id: id });
+    if (!product) {
+      res.status(404).json({ status: 404, message: "product not found" });
       return;
     }
     res.status(200).json({ status: 200, product });

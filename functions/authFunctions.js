@@ -20,6 +20,7 @@ const LoginUser = async (req, res) => {
     let { mobile, password } = req.body;
 
     let user = await UserModel.findOne({ mobile });
+    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "user not found" });
     }
@@ -34,7 +35,7 @@ const LoginUser = async (req, res) => {
       let token = jwt.sign({ id: user._id }, TOKEN);
       res.status(200).json({
         message: "user logged In Successfuly",
-        user,
+        user: { ...user._doc, password: null },
         token,
       });
     });
@@ -68,7 +69,7 @@ const RegisterUser = async (req, res) => {
     let token = jwt.sign({ id: savedUser._id }, TOKEN);
     res.status(201).json({
       message: "user Registered Successfully",
-      user: savedUser,
+      user: { ...savedUser._doc, password: null },
       token,
     });
   } catch (err) {
@@ -84,7 +85,7 @@ const LoginALoggedInUser = async (req, res) => {
     console.log(req.user);
     res.status(200).json({
       message: "Login Successfull",
-      user: req.user,
+      user: { ...req.user._doc, password: null },
     });
   } catch (err) {
     console.log(err);
