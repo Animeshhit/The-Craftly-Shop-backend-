@@ -5,9 +5,9 @@ const productValidateSchema = require("../validatorSchemas/productSchema");
 const productValidate = require("../validators/productValidator");
 
 const {
-  // createANewBanner,
+  createANewBanner,
   // editABannerImage,
-  // deleteABannerImage,
+  deleteABannerImage,
   // changeMainImage,
   createNewProduct,
   // editAProduct,
@@ -31,9 +31,9 @@ const {
 //  ==> Change Main Image
 // ==> geting all banner images
 
-// router.post("/addnewbanner", createANewBanner);
+router.post("/addnewbanner", createANewBanner);
 // router.put("/editabannerimage", editABannerImage);
-// router.delete("/deleteabannerimage", deleteABannerImage);
+router.delete("/deleteabannerimage", deleteABannerImage);
 // router.post("/changemainimage", changeMainImage);
 
 // ## For Products

@@ -7,38 +7,42 @@ const CtgModel = require("../model/ctgModel");
 
 // For Banners============================================================
 
-// const createANewBanner = async (req, res) => {
-//   // for creating a banner image user will provide
-//   // a image link and a link of page
-//   // i have to just create  a banner in banner model
-//   // that's it.
-//   // and they are all ready verified so i have no issues
+const createANewBanner = async (req, res) => {
+  // for creating a banner image user will provide
+  // a image link and a link of page
+  // i have to just create  a banner in banner model
+  // that's it.
+  // and they are all ready verified so i have no issues
 
-//   try {
-//     let { bannerText, bannerImage, bannerLink } = req.body;
+  try {
+    let { bannerText, bannerImage, bannerLink } = req.body;
 
-//     console.log(bannerImage);
+    if (!bannerImage || bannerImage == "" || bannerImage == undefined) {
+      return res
+        .status(401)
+        .json({ message: "Please provide all the required information" });
+    }
 
-//     if (!bannerImage || bannerImage == "" || bannerImage == undefined) {
-//       return res
-//         .status(401)
-//         .json({ message: "Please provide all the required information" });
-//     }
+    if (bannerLink == "" || !bannerLink) {
+      return res
+        .status(401)
+        .json({ message: "Please provide all the required information" });
+    }
 
-//     let newBanner = new BannerModel({
-//       bannerImage,
-//       bannerLink,
-//       bannerText,
-//     });
+    let newBanner = new BannerModel({
+      bannerImage,
+      bannerLink,
+      bannerText,
+    });
 
-//     let savedBanner = await newBanner.save();
+    let savedBanner = await newBanner.save();
 
-//     res.status(201).json({ message: "banner added!!", banner: savedBanner });
-//   } catch (err) {
-//     console.log(err);
-//     errorHandler(err, res);
-//   }
-// };
+    res.status(201).json({ message: "banner added!!", banner: savedBanner });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 // const editABannerImage = async (req, res) => {
 //   // getting required information from user to edit
@@ -73,27 +77,27 @@ const CtgModel = require("../model/ctgModel");
 //   }
 // };
 
-// const deleteABannerImage = async (req, res) => {
-//   // getting the banner id
-//   // searching for the banner if it exists or not
-//   // then deleting the banner
-//   try {
-//     let { bannerId } = req.query;
-//     if (!bannerId) {
-//       res.status(403).json({ message: "bad request" });
-//       return;
-//     }
-//     let bannerToDelete = await BannerModel.findByIdAndDelete(bannerId);
-//     if (!bannerToDelete) {
-//       res.status(404).json({ message: "banner not found" });
-//       return;
-//     }
-//     res.status(200).json({ message: "banner deleted!!" });
-//   } catch (err) {
-//     console.log(err);
-//     errorHandler(err, res);
-//   }
-// };
+const deleteABannerImage = async (req, res) => {
+  // getting the banner id
+  // searching for the banner if it exists or not
+  // then deleting the banner
+  try {
+    let { bannerId } = req.query;
+    if (!bannerId) {
+      res.status(403).json({ message: "bad request" });
+      return;
+    }
+    let bannerToDelete = await BannerModel.findByIdAndDelete(bannerId);
+    if (!bannerToDelete) {
+      res.status(404).json({ message: "banner not found" });
+      return;
+    }
+    res.status(200).json({ message: "banner deleted!!" });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 // const changeMainImage = async (req, res) => {
 //   // seraching the current the banner image
@@ -394,9 +398,9 @@ const deleteCtg = async (req, res) => {
 };
 
 module.exports = {
-  // createANewBanner,
+  createANewBanner,
   // editABannerImage,
-  // deleteABannerImage,
+  deleteABannerImage,
   // changeMainImage,
   createNewProduct,
   // editAProduct,
