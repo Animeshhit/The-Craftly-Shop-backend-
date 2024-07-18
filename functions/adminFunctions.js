@@ -300,25 +300,27 @@ const getAllUsers = async (req, res) => {
 };
 
 const changeAdminStatus = async (req, res) => {
+  let rootuser = 8637058434;
   try {
     let { id } = req.query;
     if (!id) {
       return res.status(403).json({ message: "bad request" });
     }
 
-    let user = await UserModel.findOne({ _id: id }).select("isAdmin");
+    let user = await UserModel.findOne({ _id: id }).select("isAdmin mobile");
 
     if (!user) {
       return res.status(404).json({ message: "user not found" });
     }
 
-    if (user._id == id) {
+    if (user._id.toString() === req.user._id.toString()) {
+      console.log("same");
       return res
         .status(400)
         .json({ message: "you can't change your own access" });
     }
 
-    if (user.mobile == 8637058434) {
+    if (user.mobile == rootuser) {
       return res.status(400).json({ message: "This user is Root User" });
     }
 
