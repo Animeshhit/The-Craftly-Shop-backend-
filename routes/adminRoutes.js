@@ -11,7 +11,7 @@ const {
   // changeMainImage,
   createNewProduct,
   // editAProduct,
-  // deleteAProduct,
+  deleteAProduct,
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,
@@ -52,7 +52,7 @@ router.post(
 // router.post("/changeproductmainimage", changeProductMainImage);
 // router.post("/changeproductimages", changeProductImages);
 // router.put("/editaproduct", editAProduct);
-// router.delete("/deleteaproduct", deleteAProduct);
+router.delete("/deleteaproduct", deleteAProduct);
 
 //for users
 // ==> /users ==> get all users

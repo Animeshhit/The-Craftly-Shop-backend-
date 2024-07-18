@@ -227,19 +227,22 @@ const createNewProduct = async (req, res) => {
 //   }
 // };
 
-// const deleteAProduct = async (req, res) => {
-//   try {
-//     let { id } = req.query;
-//     let isDeleted = await ProductModel.findByIdAndDelete(id);
-//     if (isDeleted) {
-//       return res.status(200).json({ status: 200, message: "Product Deleted" });
-//     }
-//     return res.status(404).json({ status: 404, message: "Product Not Found" });
-//   } catch (err) {
-//     console.log(err);
-//     errorHandler(err, res);
-//   }
-// };
+const deleteAProduct = async (req, res) => {
+  try {
+    let { id } = req.query;
+    if (!id) {
+      return res.status(403).json({ message: "bad request" });
+    }
+    let isDeleted = await ProductModel.findByIdAndDelete(id);
+    if (isDeleted) {
+      return res.status(200).json({ status: 200, message: "Product Deleted" });
+    }
+    return res.status(404).json({ status: 404, message: "Product Not Found" });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 // const changeProductMainImage = async (req, res) => {
 //   try {
@@ -404,7 +407,7 @@ module.exports = {
   // changeMainImage,
   createNewProduct,
   // editAProduct,
-  // deleteAProduct,
+  deleteAProduct,
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,
