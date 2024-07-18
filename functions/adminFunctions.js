@@ -312,6 +312,16 @@ const changeAdminStatus = async (req, res) => {
       return res.status(404).json({ message: "user not found" });
     }
 
+    if (user._id == id) {
+      return res
+        .status(400)
+        .json({ message: "you can't change your own access" });
+    }
+
+    if (user.mobile == 8637058434) {
+      return res.status(400).json({ message: "This user is Root User" });
+    }
+
     if (user.isAdmin) {
       user.isAdmin = false;
     } else {
