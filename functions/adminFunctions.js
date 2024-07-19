@@ -220,13 +220,74 @@ const createNewProduct = async (req, res) => {
 //   }
 // };
 
-// const editAProduct = async (req, res) => {
-//   try {
-//   } catch (err) {
-//     console.log(err);
-//     errorHandler(err, res);
-//   }
-// };
+const editAProduct = async (req, res) => {
+  try {
+    let { id } = req.query;
+    let {
+      name,
+      description,
+      price,
+      discount,
+      productImage,
+      catagories,
+      productUniqueId,
+      stock,
+      isFeatured,
+      isBestSeller,
+    } = req.body;
+
+    if (!id) {
+      return res.status(403).json({ message: "bad request" });
+    }
+    if (
+      !(
+        name ||
+        description ||
+        price ||
+        discount ||
+        productImage ||
+        catagories ||
+        productUniqueId ||
+        stock ||
+        isFeatured ||
+        isBestSeller
+      )
+    ) {
+      return res
+        .status(403)
+        .json({ message: "bad request the updated product data is not given" });
+    }
+
+    let updatedProduct = await ProductModel.findOneAndUpdate(
+      { _id: id },
+      {
+        name,
+        description,
+        price,
+        discount,
+        productImage,
+        catagories,
+        productUniqueId,
+        stock,
+        isFeatured,
+        isBestSeller,
+      },
+      {
+        new: true,
+      }
+    );
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "product not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Product Updated", product: updatedProduct });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 const deleteAProduct = async (req, res) => {
   try {
@@ -407,7 +468,7 @@ module.exports = {
   deleteABannerImage,
   changeMainImage,
   createNewProduct,
-  // editAProduct,
+  editAProduct,
   deleteAProduct,
   // createNewProductImage,
   // changeProductMainImage,

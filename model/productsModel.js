@@ -36,7 +36,7 @@ const ProductSchema = mongoose.Schema({
   productUniqueId: {
     type: String,
     unique: [true, "product unique key is important"],
-    require: true,
+    required: true,
   },
   isFeatured: {
     type: Boolean,
