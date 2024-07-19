@@ -99,52 +99,53 @@ const deleteABannerImage = async (req, res) => {
   }
 };
 
-// const changeMainImage = async (req, res) => {
-//   // seraching the current the banner image
-//   // ===> banner image not exist ===> set the new
-//   // ===> banner iamge exist ==> set that false and then set new new one true and old one false
+const changeMainImage = async (req, res) => {
+  // seraching the current the banner image
+  // ===> banner image not exist ===> set the new
+  // ===> banner iamge exist ==> set that false and then set new new one true and old one false
 
-//   try {
-//     const { bannerId } = req.query;
+  try {
+    const { bannerId } = req.query;
 
-//     try {
-//       if (!bannerId) {
-//         throw new Error("Please provide all the information.");
-//       }
+    try {
+      if (!bannerId) {
+        return res.status(403).json({ message: "bad request" });
+      }
 
-//       // Unset the current main banner image
-//       const mainBannerImage = await BannerModel.findOneAndUpdate(
-//         { isMainImage: true },
-//         { $set: { isMainImage: false } }
-//       );
+      // Unset the current main banner image
+      const mainBannerImage = await BannerModel.findOneAndUpdate(
+        { isMainImage: true },
+        { $set: { isMainImage: false } }
+      );
 
-//       // Set the new main banner image
-//       const bannerToSetMain = await BannerModel.findByIdAndUpdate(
-//         bannerId,
-//         { isMainImage: true },
-//         { new: true }
-//       );
+      // Set the new main banner image
+      const bannerToSetMain = await BannerModel.findByIdAndUpdate(
+        bannerId,
+        { isMainImage: true },
+        { new: true }
+      );
 
-//       if (!bannerToSetMain) {
-//         res.status(404).json({ message: "Banner image not found." });
-//         return;
-//       }
+      if (!bannerToSetMain) {
+        res.status(404).json({ message: "Banner image not found." });
+        return;
+      }
 
-//       res.status(200).json({
-//         message: "Banner is now the main image.",
-//         banner: bannerToSetMain,
-//       });
-//     } catch (error) {
-//       console.log(error);
-//       res.status(403).json({ message: error.message });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     errorHandler(err, res);
-//   }
-// };
+      res.status(200).json({
+        message: "Banner is now the main image.",
+        banner: bannerToSetMain,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(403).json({ message: error.message });
+    }
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 // For Products Pages======================================================
+
 const createNewProduct = async (req, res) => {
   try {
     let {
@@ -404,7 +405,7 @@ module.exports = {
   createANewBanner,
   // editABannerImage,
   deleteABannerImage,
-  // changeMainImage,
+  changeMainImage,
   createNewProduct,
   // editAProduct,
   deleteAProduct,

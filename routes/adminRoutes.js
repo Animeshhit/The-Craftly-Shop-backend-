@@ -8,7 +8,7 @@ const {
   createANewBanner,
   // editABannerImage,
   deleteABannerImage,
-  // changeMainImage,
+  changeMainImage,
   createNewProduct,
   // editAProduct,
   deleteAProduct,
@@ -34,7 +34,7 @@ const {
 router.post("/addnewbanner", createANewBanner);
 // router.put("/editabannerimage", editABannerImage);
 router.delete("/deleteabannerimage", deleteABannerImage);
-// router.post("/changemainimage", changeMainImage);
+router.post("/changemainimage", changeMainImage);
 
 // ## For Products
 
