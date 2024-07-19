@@ -51,7 +51,7 @@ router.post(
 // router.post("/createproductimage", createNewProductImage);
 // router.post("/changeproductmainimage", changeProductMainImage);
 // router.post("/changeproductimages", changeProductImages);
-router.put("/editaproduct", editAProduct);
+router.post("/editaproduct", editAProduct);
 router.delete("/deleteaproduct", deleteAProduct);
 
 //for users

@@ -229,6 +229,7 @@ const editAProduct = async (req, res) => {
       price,
       discount,
       productImage,
+      productImages,
       catagories,
       productUniqueId,
       stock,
@@ -258,6 +259,18 @@ const editAProduct = async (req, res) => {
         .json({ message: "bad request the updated product data is not given" });
     }
 
+    let product = await ProductModel.findOne({ _id: id });
+
+    if (!product) {
+      return res
+        .status(403)
+        .json({ message: "bad request the product not found" });
+    }
+
+    if (productImages && productImages.length > 0) {
+      product.productImages.unshift(...productImages);
+    }
+
     let updatedProduct = await ProductModel.findOneAndUpdate(
       { _id: id },
       {
@@ -266,6 +279,7 @@ const editAProduct = async (req, res) => {
         price,
         discount,
         productImage,
+        productImages: product.productImages,
         catagories,
         productUniqueId,
         stock,
