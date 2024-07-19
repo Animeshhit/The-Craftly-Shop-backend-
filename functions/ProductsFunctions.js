@@ -20,6 +20,8 @@ const getAllProducts = async (req, res) => {
       "discount",
       "productImage",
       "catagories",
+      "isFeatured",
+      "isBestSeller",
     ]);
     res.status(200).json({ status: 200, products });
   } catch (err) {
