@@ -33,19 +33,20 @@ const { authMiddalware } = require("./middalware/authMiddalware");
 // } else {
 const app = express();
 const PORT = process.env.PORT || "8080";
-app.use(cors({ origin: "*" }));
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:5173",
-//       "https://the-craftly-shop.vercel.app",
-//       "https://thecraftly.shop",
-//       "https://the-craftly-shop-admin.vercel.app",
-//     ],
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//     credentials: true,
-//   })
-// );
+// app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://the-craftly-shop.vercel.app",
+      "https://thecraftly.shop",
+      "https://the-craftly-shop-admin.vercel.app",
+    ],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 app.use((req, res, next) => {
   res.setHeader("Content-Type", "application/json");
   next();

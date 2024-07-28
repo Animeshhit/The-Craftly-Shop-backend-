@@ -15,22 +15,20 @@ const createANewBanner = async (req, res) => {
   // and they are all ready verified so i have no issues
 
   try {
-    let { bannerText, bannerImage, bannerLink } = req.body;
-
-    if (!bannerImage || bannerImage == "" || bannerImage == undefined) {
-      return res
-        .status(401)
-        .json({ message: "Please provide all the required information" });
-    }
-
-    if (bannerLink == "" || !bannerLink) {
-      return res
-        .status(401)
-        .json({ message: "Please provide all the required information" });
-    }
+    let {
+      bannerImage,
+      bannerImageHash,
+      phoneBannerImage,
+      phoneBannerImageHash,
+      bannerLink,
+      bannerText,
+    } = req.body;
 
     let newBanner = new BannerModel({
       bannerImage,
+      phoneBannerImage,
+      bannerImageHash,
+      phoneBannerImageHash,
       bannerLink,
       bannerText,
     });
@@ -372,10 +370,13 @@ const deleteAProduct = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    let users = await UserModel.find({}).select(
-      "-password -cart -orders -notifications"
-    );
-    res.status(200).json(users);
+    res.status(200).json({
+      status: 200,
+      users: res.paginatedResults.results,
+      next: res.paginatedResults.next,
+      prev: res.paginatedResults.prev,
+      totalUsers: res.paginatedResults.totalProducts,
+    });
   } catch (err) {
     console.log(err);
     errorHandler(err, res);

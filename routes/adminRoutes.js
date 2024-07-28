@@ -3,6 +3,10 @@ const router = express.Router();
 
 const productValidateSchema = require("../validatorSchemas/productSchema");
 const productValidate = require("../validators/productValidator");
+const bannerDataValidator = require("../validators/bannerValidator");
+const bannerValidatorSchema = require("../validatorSchemas/bannerSchema");
+const PaginateItems = require("../middalware/paginationForProducts");
+const UserModel = require("../model/userModel");
 
 const {
   createANewBanner,
@@ -31,7 +35,11 @@ const {
 //  ==> Change Main Image
 // ==> geting all banner images
 
-router.post("/addnewbanner", createANewBanner);
+router.post(
+  "/addnewbanner",
+  bannerDataValidator(bannerValidatorSchema),
+  createANewBanner
+);
 // router.put("/editabannerimage", editABannerImage);
 router.delete("/deleteabannerimage", deleteABannerImage);
 router.post("/changemainimage", changeMainImage);
@@ -58,7 +66,12 @@ router.delete("/deleteaproduct", deleteAProduct);
 // ==> /users ==> get all users
 // ==> /changeadmin ==> change the user admin
 
-router.get("/users", getAllUsers);
+router
+  .route("/users")
+  .get(
+    PaginateItems(UserModel, "-password -cart -orders -notifications"),
+    getAllUsers
+  );
 router.get("/changeadmin", changeAdminStatus);
 
 // For categories
