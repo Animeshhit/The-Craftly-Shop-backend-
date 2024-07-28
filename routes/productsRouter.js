@@ -10,6 +10,7 @@ const {
 const router = express.Router();
 const ProductModel = require("../model/productsModel");
 const PaginateItems = require("../middalware/paginationForProducts");
+const PaginateItemsForHome = require("../middalware/paginationForHome");
 
 // This Site The client Operations Will Be Performed
 
@@ -27,7 +28,9 @@ router.get("/banners", getAllBannerImages);
 router
   .route("/products")
   .get(PaginateItems(ProductModel, selectOptions), getAllProducts);
-router.get("/products/by", getProductsBy);
+router
+  .route("/products/by")
+  .get(PaginateItemsForHome(ProductModel, selectOptions), getProductsBy);
 router.get("/search", searchProducts);
 router.get("/product", getAProduct);
 router.get("/dashboard", getDashboard);

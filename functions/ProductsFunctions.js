@@ -50,21 +50,15 @@ const searchProducts = async (req, res) => {
 
 const getProductsBy = async (req, res) => {
   try {
-    let { query } = req.query;
-    let products;
-    if (query == "featured") {
-      products = await ProductModel.find({ isFeatured: true }).select(
-        selectOptions
-      );
-    } else if (query == "bestseller") {
-      products = await ProductModel.find({ isBestSeller: true }).select(
-        selectOptions
-      );
-    } else {
-      return res.status(403).json({ message: "bad request" });
-    }
-
-    res.status(200).json({ status: 200, products });
+    res
+      .status(200)
+      .json({
+        status: 200,
+        products: res.paginatedResults.results,
+        next: res.paginatedResults.next,
+        prev: res.paginatedResults.prev,
+        totalProducts: res.paginatedResults.totalProducts,
+      });
   } catch (err) {
     console.log(err);
     errorHandler(err, res);
