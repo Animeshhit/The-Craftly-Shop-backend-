@@ -39,6 +39,20 @@ const getAllProducts = async (req, res) => {
     errorHandler(err, res);
   }
 };
+const getProductsOfDraft = async (req, res) => {
+  try {
+    res.status(200).json({
+      status: 200,
+      products: res.paginatedResults.results,
+      next: res.paginatedResults.next,
+      prev: res.paginatedResults.prev,
+      totalProducts: res.paginatedResults.totalProducts,
+    });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
 
 const searchProducts = async (req, res) => {
   try {
@@ -50,15 +64,13 @@ const searchProducts = async (req, res) => {
 
 const getProductsBy = async (req, res) => {
   try {
-    res
-      .status(200)
-      .json({
-        status: 200,
-        products: res.paginatedResults.results,
-        next: res.paginatedResults.next,
-        prev: res.paginatedResults.prev,
-        totalProducts: res.paginatedResults.totalProducts,
-      });
+    res.status(200).json({
+      status: 200,
+      products: res.paginatedResults.results,
+      next: res.paginatedResults.next,
+      prev: res.paginatedResults.prev,
+      totalProducts: res.paginatedResults.totalProducts,
+    });
   } catch (err) {
     console.log(err);
     errorHandler(err, res);
@@ -107,4 +119,5 @@ module.exports = {
   searchProducts,
   getProductsBy,
   getDashboard,
+  getProductsOfDraft,
 };

@@ -2,6 +2,7 @@ const errorHandler = require("./ErrorHandler");
 const BannerModel = require("../model/bannerModel");
 const ProductModel = require("../model/productsModel");
 const UserModel = require("../model/userModel");
+const DraftModel = require("../model/DraftsModel");
 const { v4 } = require("uuid");
 const CtgModel = require("../model/ctgModel");
 
@@ -156,6 +157,7 @@ const createNewProduct = async (req, res) => {
       catagories,
       productUniqueId,
       stock,
+      tags,
       isFeatured,
       isBestSeller,
     } = req.body;
@@ -179,10 +181,64 @@ const createNewProduct = async (req, res) => {
       catagories,
       productUniqueId,
       stock,
+      tags,
       isFeatured,
       isBestSeller,
     });
     await newProduct.save();
+
+    res.status(201).json({ status: 201, message: "product Added" });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
+
+const createNewProductAtDraft = async (req, res) => {
+  try {
+    let {
+      name,
+      description,
+      price,
+      discount,
+      productImage,
+      productImages,
+      catagories,
+      productUniqueId,
+      stock,
+      tags,
+      isFeatured,
+      isBestSeller,
+    } = req.body;
+
+    let existingProduct = await ProductModel.findOne({ productUniqueId });
+
+    let existingDraftProduct = await DraftModel.findOne({
+      productUniqueId,
+    });
+
+    if (existingProduct && existingDraftProduct) {
+      res
+        .status(403)
+        .json({ status: 403, message: "unique id is already exist!!" });
+      return;
+    }
+
+    const newProductForDraft = new DraftModel({
+      name,
+      description,
+      price,
+      discount,
+      productImage,
+      productImages,
+      catagories,
+      productUniqueId,
+      stock,
+      tags,
+      isFeatured,
+      isBestSeller,
+    });
+    await newProductForDraft.save();
 
     res.status(201).json({ status: 201, message: "product Added" });
   } catch (err) {
@@ -231,6 +287,7 @@ const editAProduct = async (req, res) => {
       catagories,
       productUniqueId,
       stock,
+      tags,
       isFeatured,
       isBestSeller,
     } = req.body;
@@ -281,6 +338,7 @@ const editAProduct = async (req, res) => {
         catagories,
         productUniqueId,
         stock,
+        tags,
         isFeatured,
         isBestSeller,
       },
@@ -308,6 +366,23 @@ const deleteAProduct = async (req, res) => {
       return res.status(403).json({ message: "bad request" });
     }
     let isDeleted = await ProductModel.findByIdAndDelete(id);
+    if (isDeleted) {
+      return res.status(200).json({ status: 200, message: "Product Deleted" });
+    }
+    return res.status(404).json({ status: 404, message: "Product Not Found" });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
+
+const deleteADraftProduct = async (req, res) => {
+  try {
+    let { id } = req.query;
+    if (!id) {
+      return res.status(403).json({ message: "bad request" });
+    }
+    let isDeleted = await DraftModel.findByIdAndDelete(id);
     if (isDeleted) {
       return res.status(200).json({ status: 200, message: "Product Deleted" });
     }
@@ -483,8 +558,10 @@ module.exports = {
   deleteABannerImage,
   changeMainImage,
   createNewProduct,
+  createNewProductAtDraft,
   editAProduct,
   deleteAProduct,
+  deleteADraftProduct,
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,

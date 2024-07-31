@@ -32,6 +32,7 @@ const productValidatorSchema = z.object({
     })
     .trim(),
   stock: z.string(),
+  tags: z.array(z.string()),
   isFeatured: z.boolean({
     required_error: "featured products is required",
     invalid_type_error: "isFeatured must be a boolean",

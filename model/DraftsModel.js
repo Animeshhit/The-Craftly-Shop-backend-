@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ProductSchema = mongoose.Schema({
+const DraftsSchema = mongoose.Schema({
   name: {
     type: String,
     required: [true, "product name is required"],
@@ -54,7 +54,6 @@ const ProductSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-
   sold: {
     type: Number,
     default: 0,
@@ -73,9 +72,9 @@ const ProductSchema = mongoose.Schema({
   },
 });
 
-ProductSchema.pre("save", function (next) {
+DraftsSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
-module.exports = mongoose.model("product", ProductSchema);
+module.exports = mongoose.model("draft", DraftsSchema);

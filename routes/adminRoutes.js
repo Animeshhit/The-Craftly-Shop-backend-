@@ -16,6 +16,7 @@ const {
   createNewProduct,
   editAProduct,
   deleteAProduct,
+  createNewProductAtDraft,
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,
@@ -23,6 +24,7 @@ const {
   createNewCtg,
   deleteCtg,
   changeAdminStatus,
+  deleteADraftProduct,
 } = require("../functions/adminFunctions");
 
 // testing the admin pannel
@@ -56,11 +58,18 @@ router.post(
   productValidate(productValidateSchema),
   createNewProduct
 );
+
+router.post(
+  "/createnewproductatdraft",
+  productValidate(productValidateSchema),
+  createNewProductAtDraft
+);
 // router.post("/createproductimage", createNewProductImage);
 // router.post("/changeproductmainimage", changeProductMainImage);
 // router.post("/changeproductimages", changeProductImages);
 router.post("/editaproduct", editAProduct);
 router.delete("/deleteaproduct", deleteAProduct);
+router.delete("/deleteadraftproduct", deleteADraftProduct);
 
 //for users
 // ==> /users ==> get all users

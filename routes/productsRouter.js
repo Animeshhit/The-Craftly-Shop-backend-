@@ -6,12 +6,13 @@ const {
   getAProduct,
   getProductsBy,
   getDashboard,
+  getProductsOfDraft,
 } = require("../functions/ProductsFunctions");
 const router = express.Router();
 const ProductModel = require("../model/productsModel");
 const PaginateItems = require("../middalware/paginationForProducts");
 const PaginateItemsForHome = require("../middalware/paginationForHome");
-
+const DraftModel = require("../model/DraftsModel");
 // This Site The client Operations Will Be Performed
 
 let selectOptions = [
@@ -22,6 +23,7 @@ let selectOptions = [
   "catagories",
   "isFeatured",
   "isBestSeller",
+  "tags",
 ];
 
 router.get("/banners", getAllBannerImages);
@@ -33,6 +35,9 @@ router
   .get(PaginateItemsForHome(ProductModel, selectOptions), getProductsBy);
 router.get("/search", searchProducts);
 router.get("/product", getAProduct);
+router
+  .route("/drafts")
+  .get(PaginateItems(DraftModel, selectOptions), getProductsOfDraft);
 router.get("/dashboard", getDashboard);
 
 // performance optimization
