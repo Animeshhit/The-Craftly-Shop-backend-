@@ -17,6 +17,8 @@ const {
   editAProduct,
   deleteAProduct,
   createNewProductAtDraft,
+  moveToDraft,
+  moveToProduct,
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,
@@ -89,5 +91,7 @@ router.get("/changeadmin", changeAdminStatus);
 
 router.post("/create-new-ctg", createNewCtg);
 router.delete("/delete-ctg", deleteCtg);
+router.post("/movetodraft", moveToDraft);
+router.post("/movetopublic", moveToProduct);
 
 module.exports = router;

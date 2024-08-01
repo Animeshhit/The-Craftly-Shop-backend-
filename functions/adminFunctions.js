@@ -552,6 +552,88 @@ const deleteCtg = async (req, res) => {
   }
 };
 
+const moveToDraft = async (req, res) => {
+  try {
+    let { id } = req.query;
+    if (!id) {
+      return res.status(403).json({ message: "bad request" });
+    }
+
+    let productToBeMove = await ProductModel.findOne({ _id: id });
+    productToBeMove._id = null;
+    if (!productToBeMove) {
+      return res.status(404).json({ message: "product not found" });
+    }
+    let newDraftProduct = new DraftModel({
+      name: productToBeMove.name,
+      description: productToBeMove.description,
+      variants: productToBeMove.variants || [],
+      price: productToBeMove.price,
+      discount: productToBeMove.discount,
+      productImage: productToBeMove.productImage,
+      productImages: productToBeMove.productImages || [],
+      catagories: productToBeMove.catagories,
+      productUniqueId: productToBeMove.productUniqueId,
+      isFeatured: productToBeMove.isFeatured || false,
+      isBestSeller: productToBeMove.isBestSeller || false,
+      reviews: productToBeMove.reviews || [],
+      stock: productToBeMove.stock || 0,
+      sold: productToBeMove.sold || 0,
+      tags: productToBeMove.tags || [],
+    });
+    let savedDraft = await newDraftProduct.save();
+
+    await ProductModel.deleteOne({ _id: id });
+
+    res
+      .status(200)
+      .json({ message: "product moved to draft", draft: savedDraft });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
+
+const moveToProduct = async (req, res) => {
+  try {
+    let { id } = req.query;
+    if (!id) {
+      return res.status(403).json({ message: "bad request" });
+    }
+    let draftProductToBeMoved = await DraftModel.findOne({ _id: id });
+    if (!draftProductToBeMoved) {
+      return res.status(404).json({ message: "product not found" });
+    }
+    let newProduct = new ProductModel({
+      name: draftProductToBeMoved.name,
+      description: draftProductToBeMoved.description,
+      variants: draftProductToBeMoved.variants || [],
+      price: draftProductToBeMoved.price,
+      discount: draftProductToBeMoved.discount,
+      productImage: draftProductToBeMoved.productImage,
+      productImages: draftProductToBeMoved.productImages || [],
+      catagories: draftProductToBeMoved.catagories,
+      productUniqueId: draftProductToBeMoved.productUniqueId,
+      isFeatured: draftProductToBeMoved.isFeatured || false,
+      isBestSeller: draftProductToBeMoved.isBestSeller || false,
+      reviews: draftProductToBeMoved.reviews || [],
+      stock: draftProductToBeMoved.stock || 0,
+      sold: draftProductToBeMoved.sold || 0,
+      tags: draftProductToBeMoved.tags || [],
+    });
+    let savedProduct = await newProduct.save();
+
+    await DraftModel.deleteOne({ _id: id });
+
+    res
+      .status(200)
+      .json({ message: "product moved to public", product: savedProduct });
+  } catch (err) {
+    console.log(err);
+    errorHandler(err, res);
+  }
+};
+
 module.exports = {
   createANewBanner,
   // editABannerImage,
@@ -562,6 +644,8 @@ module.exports = {
   editAProduct,
   deleteAProduct,
   deleteADraftProduct,
+  moveToDraft,
+  moveToProduct,
   // createNewProductImage,
   // changeProductMainImage,
   // changeProductImages,
