@@ -56,6 +56,13 @@ const getProductsOfDraft = async (req, res) => {
 
 const searchProducts = async (req, res) => {
   try {
+    res.status(200).json({
+      status: 200,
+      products: res.paginatedResults.results,
+      next: res.paginatedResults.next,
+      prev: res.paginatedResults.prev,
+      totalProducts: res.paginatedResults.totalProducts,
+    });
   } catch (err) {
     console.log(err);
     errorHandler(err, res);

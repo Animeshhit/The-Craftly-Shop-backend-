@@ -12,6 +12,7 @@ const router = express.Router();
 const ProductModel = require("../model/productsModel");
 const PaginateItems = require("../middalware/paginationForProducts");
 const PaginateItemsForHome = require("../middalware/paginationForHome");
+const PaginateItemsForSearch = require("../middalware/paginationForSearch");
 const DraftModel = require("../model/DraftsModel");
 // This Site The client Operations Will Be Performed
 
@@ -31,9 +32,11 @@ router
   .route("/products")
   .get(PaginateItems(ProductModel, selectOptions), getAllProducts);
 router
+  .route("/search")
+  .get(PaginateItemsForSearch(ProductModel, selectOptions), searchProducts);
+router
   .route("/products/by")
   .get(PaginateItemsForHome(ProductModel, selectOptions), getProductsBy);
-router.get("/search", searchProducts);
 router.get("/product", getAProduct);
 router
   .route("/drafts")
