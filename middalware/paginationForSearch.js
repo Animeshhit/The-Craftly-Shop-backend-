@@ -14,7 +14,16 @@ function PaginateItemsForSearch(model, soptions) {
 
     const results = {};
 
-    let totalItems;
+    let totalItems = await model
+      .countDocuments({
+        $or: [
+          { name: { $regex: query, $options: "i" } },
+          { description: { $regex: query, $options: "i" } },
+          { catagories: { $regex: query, $options: "i" } },
+          { tags: { $regex: query, $options: "i" } },
+        ],
+      })
+      .exec();
 
     try {
       results.results = await model
@@ -31,7 +40,8 @@ function PaginateItemsForSearch(model, soptions) {
         .skip(startIndex)
         .exec();
 
-      totalItems = results.results.length;
+      // totalItems = results.results.length;
+      // console.log(totalItems, endIndex);
 
       results.next = endIndex < totalItems && {
         page: page + 1,
