@@ -89,6 +89,7 @@ const getAProduct = async (req, res) => {
     let { id } = req.query;
     if (!id) return res.status(403).json({ message: "bad request" });
     let product = await ProductModel.findOne({ _id: id });
+    console.log(product);
     if (!product) {
       res.status(404).json({ status: 404, message: "product not found" });
       return;
